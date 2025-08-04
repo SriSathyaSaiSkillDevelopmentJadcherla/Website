@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programs - Sri Sathya Sai Skill Development Centre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #F97316;
+            --primary-dark: #EA580C;
+            --secondary: #1E293B;
+            --light: #FFF7ED;
+            --accent: #F59E0B;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after,
+        .nav-link.active:after {
+            width: 100%;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/random/1600x900/?education,skills,india');
+            background-color: #333; /* Fallback */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 1;
+        }
+        @media (max-width: 768px) {
+            .hero-section {
+                background-attachment: scroll;
+            }
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            min-height: 400px; /* Ensure consistent height */
+            opacity: 1 !important; /* Fallback */
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .program-card-image {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        @media (max-width: 768px) {
+            .program-card-image {
+                aspect-ratio: 4/3;
+                max-height: 150px;
+            }
+        }
+
+        .program-card-overview {
+            display: flex;
+            flex-direction: column;
+            min-height: 200px; /* Ensure equal height */
+        }
+        .program-card-overview p {
+            flex-grow: 1; /* Push link to bottom */
+        }
+        .program-card-overview img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .pill-upcoming {
+            background-color: #FEEBC8;
+            color: #D97706;
+        }
+        .pill-ongoing {
+            background-color: #D1FAE5;
+            color: #047857;
+        }
+
+        .glow-on-hover {
+            transition: all 0.3s ease;
+        }
+        .glow-on-hover:hover {
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .section-underline {
+            width: 64px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 0 auto 1rem;
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        .tab:hover {
+            color: var(--primary);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        .social-icon {
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            color: var(--primary);
+        }
+
+        .final-cta-section h2, .final-cta-section p, .final-cta-section a {
+            opacity: 1 !important; /* Fallback */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                        <div class="hero-banner-image">
+                            <img src="Images\Logo\logo.jpg" alt="Institute Logo">
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Sri Sathya Sai</h1>
+                        <p class="text-xs text-orange-500 font-medium">Skill Development Centre,Jadcherla</p>
+                    </div>
+                </a>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-gray-600">Home</a>
+                    <a href="about.html" class="nav-link text-gray-600">About Us</a>
+                    <a href="programs.html" class="nav-link text-orange-500 font-medium active">Programs</a>
+                    <a href="gallery.html" class="nav-link text-gray-600">Gallery</a>
+                    <a href="join.html" class="nav-link text-gray-600">Join Us</a>
+                    <a href="contact.html" class="nav-link text-gray-600">Contact</a>
+                    <a href="register.html" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">Register</a>
+                </nav>
+                <button id="mobileMenuBtn" class="md:hidden text-gray-600 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobileMenu" class="md:hidden hidden py-4">
+                <ul class="space-y-3">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Home</a></li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">About Us</a></li>
+                    <li><a href="programs.html" class="block px-4 py-2 text-orange-500 font-medium hover:bg-orange-50 rounded">Programs</a></li>
+                    <li><a href="gallery.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Gallery</a></li>
+                    <li><a href="join.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Join Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Contact</a></li>
+                    <li><a href="register.html" class="block mt-4 px-4 py-2 bg-orange-500 text-white text-center rounded-lg hover:bg-orange-600 transition">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <section class="hero-section relative py-24 text-white flex items-center justify-center">
+            <div class="absolute inset-0 bg-black/50 z-10"></div>
+            <div class="container mx-auto px-4 relative z-20 text-center">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">Our Skill Development Programs</h1>
+                <p class="text-lg max-w-2xl mx-auto mb-6">"Education is for life, not just for living." — Sri Sathya Sai Baba</p>
+                <div class="flex justify-center gap-4">
+                    <a href="#programs-section" class="px-6 py-3 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition font-medium glow-on-hover">View Programs</a>
+                    <a href="register.html" class="px-6 py-3 border border-white text-white rounded-md hover:bg-white hover:text-orange-500 transition font-medium">Register Now</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white program-overview-section">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Empowering Through Skills</h2>
+                    <div class="section-underline"></div>
+                    <p class="text-gray-600 text-sm">Our programs blend practical skills with human values, fostering holistic growth and sustainable livelihoods.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-orange-50 p-6 rounded-lg shadow-md hover:scale-105 transition duration-300 program-card-overview">
+                        <img src="https://images.stockcake.com/public/9/5/8/9582b33f-3b87-4512-8cd2-0624bc758f6d_large/future-office-collaboration-stockcake.jpg" alt="Upcoming Programs" class="w-12 h-12 object-cover rounded-full mb-4">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Upcoming Programs</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex-grow">Join our upcoming batches to gain in-demand skills.</p>
+                        <a href="#programs-section" class="tab text-orange-600 text-sm font-semibold hover:underline mt-auto" data-tab="upcoming" onclick="switchTab('upcoming')">View Upcoming <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <div class="bg-orange-50 p-6 rounded-lg shadow-md hover:scale-105 transition duration-300 program-card-overview">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60" alt="Ongoing Courses" class="w-12 h-12 object-cover rounded-full mb-4">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Ongoing Courses</h3>
+                        <p class="text-gray-600 text-sm mb-3 flex-grow">Explore our active programs transforming lives.</p>
+                        <a href="#programs-sectionfr" class="tab text-orange-600 text-sm font-semibold hover:underline mt-auto" data-tab="ongoing" onclick="switchTab('ongoing')">Explore Ongoing <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs-section" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Programs</h2>
+                    <div class="section-underline"></div>
+                    <p class="text-gray-600 text-sm">Explore our transformative courses below.</p>
+                </div>
+                <div class="flex justify-center mb-8">
+                    <div class="flex space-x-4">
+                        <select id="course-filter" class="px-4 py-2 border border-gray-300 rounded-md">
+                            <option value="all">All Courses</option>
+                            <option value="tech">Tech Courses</option>
+                            <option value="craft">Craft Courses</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-center mb-8">
+                    <div class="flex space-x-4 border-b border-gray-200" role="tablist">
+                        <button class="tab active" data-tab="upcoming" role="tab" aria-selected="true" aria-controls="upcoming-tab">Upcoming Batches</button>
+                        <button class="tab" data-tab="ongoing" role="tab" aria-selected="false" aria-controls="ongoing-tab">Ongoing Courses</button>
+                    </div>
+                </div>
+                <canvas id="courseChart" width="400" height="400" class="mb-8 mx-auto"></canvas>
+                <div id="upcoming-tab" class="tab-content active" role="tabpanel">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="program-card tech-course">
+                            <img src="Images\Programs\Maggamgirls.jpg" alt="Maggam Work and Traditional Embroidery" class="program-card-image">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <span class="pill pill-upcoming">Upcoming Batch</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Maggam Work & Traditional Embroidery (for Women)</h3>
+                                <p class="text-gray-600 text-sm flex-grow mb-3">
+                                    Master the intricate art of Maggam work, Aari embroidery, and traditional Indian needlecraft. This program empowers women with skills for self-employment or boutique careers.
+                                    Learn design, material selection, stitching techniques, and finishing.
+                                </p>
+                                <div class="space-y-2 mb-3 text-sm">
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-calendar-alt mr-2 text-orange-500"></i> Starts: <span class="text-orange-600 ml-1">September 1, 2025</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-clock mr-2 text-orange-500"></i> Duration: <span class="text-orange-600 ml-1 font-semibold">3 Months</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-clipboard-list mr-2 text-orange-500"></i> Apply by: <span class="text-red-500 font-semibold ml-1">August 15, 2025</span></p>
+                                </div>
+                                <a href="register.html" class="mt-auto inline-block text-center px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition font-medium glow-on-hover">
+                                    Apply Now <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="program-card tech-course">
+                            <img src="Images\Programs\pythongirls.jpg" alt="Python with AI for Girls" class="program-card-image">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <span class="pill pill-upcoming">Upcoming Batch</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Python with AI (for Girls Batch)</h3>
+                                <p class="text-gray-600 text-sm flex-grow mb-3">
+                                    Empowering women with skills in Python programming and Artificial Intelligence. Covers fundamentals, data science, and AI applications for a tech career.
+                                </p>
+                                <div class="space-y-2 mb-3 text-sm">
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-calendar-alt mr-2 text-orange-500"></i> Starts: <span class="text-orange-600 ml-1">October 1, 2025</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-clock mr-2 text-orange-500"></i> Duration: <span class="text-orange-600 ml-1 font-semibold">5 Months</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-clipboard-list mr-2 text-orange-500"></i> Apply by: <span class="text-red-500 font-semibold ml-1">September 15, 2025</span></p>
+                                </div>
+                                <a href="register.html" class="mt-auto inline-block text-center px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition font-medium glow-on-hover">
+                                    Apply Now <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ongoing-tab" class="tab-content" role="tabpanel">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="program-card craft-course">
+                            <img src="Images\Programs\pythonboys.jpg" alt="Python with AI for Boys" class="program-card-image">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <span class="pill pill-ongoing">Ongoing Batch</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Python with AI (for Boys Batch)</h3>
+                                <p class="text-gray-600 text-sm flex-grow mb-3">
+                                    Equipping young men with Python programming and AI skills through hands-on projects and problem-solving for tech careers.
+                                </p>
+                                <div class="space-y-2 mb-3 text-sm">
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-calendar-check mr-2 text-emerald-600"></i> Started: <span class="text-emerald-700 ml-1">June 1, 2025</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-clock mr-2 text-emerald-600"></i> Duration: <span class="text-emerald-700 ml-1 font-semibold">5 Months</span></p>
+                                    <p class="text-gray-700 flex items-center"><i class="fas fa-chart-line mr-2 text-emerald-600"></i> Progress: <span class="text-emerald-700 ml-1">75% Completed</span></p>
+                                </div>
+                                <a href="programs-detail-python.html" class="mt-auto inline-block text-center px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-50 transition font-medium">
+                                    Learn More <i class="fas fa-info-circle ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-gray-100 unique-approach-section">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto text-center mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Our Unique Approach</h2>
+                    <div class="section-underline"></div>
+                    <p class="text-gray-600 text-sm">We combine skill training with human values for holistic growth.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:scale-105 transition duration-300">
+                        <i class="fas fa-hands-helping text-3xl text-orange-500 mb-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Hands-on Learning</h3>
+                        <p class="text-gray-600 text-sm">Practical training for real-world skills.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:scale-105 transition duration-300">
+                        <i class="fas fa-book-reader text-3xl text-orange-500 mb-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Value-Based Education</h3>
+                        <p class="text-gray-600 text-sm">Instilling ethics and responsibility.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:scale-105 transition duration-300">
+                        <i class="fas fa-briefcase text-3xl text-orange-500 mb-3"></i>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Placement Assistance</h3>
+                        <p class="text-gray-600 text-sm">Support for career success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-orange-500 text-white text-center final-cta-section">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-4">Ready to Transform Your Future?</h2>
+                <p class="text-lg mb-6">Join our programs to master skills and values.</p>
+                <div class="flex justify-center gap-4">
+                    <a href="register.html" class="px-6 py-3 bg-white text-orange-500 rounded-md hover:bg-gray-100 transition font-medium glow-on-hover">
+                        Register Now <i class="fas fa-user-plus ml-1"></i>
+                    </a>
+                    <a href="contact.html" class="px-6 py-3 border border-white text-white rounded-md hover:bg-white hover:text-orange-500 transition font-medium">
+                        Have Questions? <i class="fas fa-question-circle ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                        </div>
+                        SSSDC–JCL
+                    </h3>
+                    <p class="text-gray-400 mb-6">Empowering communities through skill development inspired by Sri Sathya Sai Baba's teachings of love, service, and human values.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-orange-500 transition">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-orange-500 transition">About Us</a></li>
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Programs</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-orange-500 transition">Gallery</a></li>
+                        <li><a href="join.html" class="text-gray-400 hover:text-orange-500 transition">Join Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-orange-500 transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Our Programs</h3>
+                    <ul class="space-y-3">
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Tailoring & Maggam Work</a></li>
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Beautician Training</a></li>
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Electrical & Wiring</a></li>
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Computer Basics</a></li>
+                        <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Soft Skills</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-orange-500"></i>
+                            <span>Jadcherla, Mahabubnagar, Telangana - 509301, India</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-orange-500"></i>
+                            <span>+91 8555 287239</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-orange-500"></i>
+                            <span>srisathyasaiskilldevelopment@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 mb-4 md:mb-0">© 2025 Sri Sathya Sai Skill Development Center. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-orange-500 transition">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-500 transition">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-orange-500 transition">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // Tabbed Interface Logic
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function switchTab(tabName) {
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            tabContents.forEach(content => content.classList.remove('active'));
+            const activeTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+            activeTab.classList.add('active');
+            activeTab.setAttribute('aria-selected', 'true');
+            const targetTabContentId = `${tabName}-tab`;
+            const activeTabContent = document.getElementById(targetTabContentId);
+            activeTabContent.classList.add('active');
+            const cardsInActiveTab = activeTabContent.querySelectorAll('.program-card');
+            gsap.from(cardsInActiveTab, {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Course Filter
+        document.getElementById('course-filter').addEventListener('change', (e) => {
+            const filter = e.target.value;
+            const upcomingCards = document.querySelectorAll('#upcoming-tab .program-card');
+            const ongoingCards = document.querySelectorAll('#ongoing-tab .program-card');
+            const allCards = [...upcomingCards, ...ongoingCards];
+            allCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const cardIsTech = title.includes('python');
+                const cardIsCraft = title.includes('maggam');
+
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                } else if (filter === 'tech' && cardIsTech) {
+                    card.style.display = 'block';
+                } else if (filter === 'craft' && cardIsCraft) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Chart.js Chart
+        const ctx = document.getElementById('courseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Ongoing Courses', 'Upcoming Courses'],
+                datasets: [{
+                    data: [1, 2],
+                    backgroundColor: ['#34D399', '#F97316'],
+                    borderColor: ['#FFFFFF', '#FFFFFF'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: "'Poppins', sans-serif"
+                            },
+                            color: '#1E293B'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribution of Ongoing vs Upcoming Courses',
+                        font: {
+                            size: 18,
+                            family: "'Poppins', sans-serif"
+                        },
+                        color: '#1E293B'
+                    }
+                }
+            }
+        });
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+            // Fallback to prevent transparency
+            gsap.set('.hero-section h1, .hero-section p, .hero-section .flex a, .program-overview-section h2, .program-overview-section p, .program-overview-section .grid > div, #programs-section h2, #programs-section p, #upcoming-tab .program-card, #ongoing-tab .program-card, .unique-approach-section h2, .unique-approach-section p, .unique-approach-section .grid > div, .final-cta-section h2, .final-cta-section p, .final-cta-section a', {
+                opacity: 1
+            });
+
+            // Hero Section
+            gsap.from('.hero-section h1', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out'
+            });
+            gsap.from('.hero-section p', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+            gsap.from('.hero-section .flex a', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                delay: 0.6,
+                ease: 'power3.out'
+            });
+
+            // Program Overview Section
+            gsap.from('.program-overview-section h2, .program-overview-section .section-underline, .program-overview-section p', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.program-overview-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            gsap.from('.program-overview-section .grid > div', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.program-overview-section',
+                    start: 'top 75%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Programs Section
+            gsap.from('#programs-section h2, #programs-section .section-underline, #programs-section p', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#programs-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Upcoming Tab
+            gsap.from('#upcoming-tab .program-card', {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#upcoming-tab',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Ongoing Tab
+            gsap.from('#ongoing-tab .program-card', {
+                duration: 0.8,
+                y: 30,
+                opacity: 0,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '#ongoing-tab',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Unique Approach Section
+            gsap.from('.unique-approach-section h2, .unique-approach-section .section-underline, .unique-approach-section p', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.unique-approach-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            gsap.from('.unique-approach-section .grid > div', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.unique-approach-section',
+                    start: 'top 75%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Final CTA Section
+            gsap.from('.final-cta-section h2, .final-cta-section p, .final-cta-section a', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.final-cta-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Sri Sathya Sai Skill Development Centre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #F97316;
+            --primary-dark: #EA580C;
+            --secondary: #1E293B;
+            --light: #FFF7ED;
+            --accent: #F59E0B;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-btn {
+            background: var(--primary);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .register-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .orange-box {
+            background: linear-gradient(to bottom right, var(--primary), var(--accent));
+            position: relative;
+        }
+
+        .orange-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            background-image: url('https://www.sssihl.edu.in/wp-content/themes/sssihl/images/sai-opacity.png');
+            background-repeat: repeat;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+ <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                       <div class="hero-banner-image">
+                        <img src="Images\Logo\logo.jpg" alt="Institute Logo">
+                    </div>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">Sri Sathya Sai</h1>
+                        <p class="text-xs text-orange-500 font-medium">Skill Development Centre, Jadcherla</p>
+                    </div>
+                </a>
+                
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="index.html" class="nav-link text-gray-600 hover:text-orange-500">Home</a></li>
+                        <li><a href="about.html" class="nav-link text-gray-600 hover:text-orange-500">About Us</a></li>
+                        <li><a href="programs.html" class="nav-link text-gray-600 hover:text-orange-500">Programs</a></li>
+                        <li><a href="gallery.html" class="nav-link text-gray-600 hover:text-orange-500">Gallery</a></li>
+                        <li><a href="join.html" class="nav-link text-gray-600 hover:text-orange-500">Join Us</a></li>
+                        <li><a href="contact.html" class="nav-link text-gray-600 hover:text-orange-500">Contact</a></li>
+                        <li><a href="register.html" class="ml-4 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">Register</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="md:hidden text-gray-600 focus:outline-none" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="md:hidden hidden py-4" id="mobileMenu">
+                <ul class="space-y-3">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Home</a></li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">About Us</a></li>
+                    <li><a href="programs.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Programs</a></li>
+                    <li><a href="gallery.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Gallery</a></li>
+                    <li><a href="join.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Join Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-orange-500 font-medium hover:bg-orange-50 rounded">Contact</a></li>
+                    <li><a href="register.html" class="block mt-4 px-4 py-2 bg-orange-500 text-white text-center rounded-lg hover:bg-orange-600 transition">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="hero-section relative py-32 text-white flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <!-- Orange Box -->
+            <div class="orange-box p-8 rounded-xl max-w-2xl mx-auto mb-12 text-center">
+                <div class="relative z-10">
+                    <div class="flex justify-center mb-6">
+                        <img src="Images\Register\Satya Sai.jpg" alt="Sri Sathya Sai Baba" class="rounded-lg shadow-lg w-full max-w-xs border-4 border-white">
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Our Transformative Journey</h2>
+                    <p class="text-lg mb-6">"Transform your life through learning and service." — Sri Sathya Sai Baba</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-center">
+                            <i class="fas fa-check-circle mt-1 mr-3 text-amber-200"></i>
+                            <span>Skill Development</span>
+                        </div>
+                        <div class="flex items-start justify-center">
+                            <i class="fas fa-check-circle mt-1 mr-3 text-amber-200"></i>
+                            <span>Empowerment</span>
+                        </div>
+                        <div class="flex items-start justify-center">
+                            <i class="fas fa-check-circle mt-1 mr-3 text-amber-200"></i>
+                            <span>Community Impact</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Course Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="course-card p-6 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-seedling text-orange-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Maggam (Women Only)</h3>
+                    <p class="text-gray-600 mb-6">Master the art of traditional Maggam embroidery, designed exclusively for women to foster creativity and entrepreneurship.</p>
+                    <button class="register-btn text-white px-6 py-3 rounded-lg font-medium" data-course="Maggam (Women Only)" data-redirect="form.html">Register Now</button>
+                </div>
+                <div class="course-card p-6 text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-code text-orange-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Python with AI for Girls</h3>
+                    <p class="text-gray-600 mb-6">Learn Python programming and AI concepts in a supportive environment tailored for girls to build tech skills.</p>
+                    <button class="register-btn text-white px-6 py-3 rounded-lg font-medium" data-course="Python with AI for Girls" data-redirect="form.html">Register Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div>
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          SSSDC–JCL
+        </h3>
+        <p class="text-gray-400 mb-6">Empowering communities through skill development inspired by Sri Sathya Sai Baba's teachings of love, service, and human values.</p>
+        <div class="flex space-x-4">
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+        <ul class="space-y-3">
+          <li><a href="index.html" class="text-gray-400 hover:text-orange-500 transition">Home</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-orange-500 transition">About Us</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Programs</a></li>
+          <li><a href="gallery.html" class="text-gray-400 hover:text-orange-500 transition">Gallery</a></li>
+          <li><a href="join.html" class="text-gray-400 hover:text-orange-500 transition">Join Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Our Programs</h3>
+        <ul class="space-y-3">
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Tailoring & Maggam Work</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Beautician Training</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Electrical & Wiring</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Computer Basics</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Soft Skills</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+        <ul class="space-y-3 text-gray-400">
+          <li class="flex items-start">
+            <i class="fas fa-map-marker-alt mt-1 mr-3 text-orange-500"></i>
+            <span>Jadcherla, Mahabubnagar, Telangana - 509301, India</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-phone-alt mt-1 mr-3 text-orange-500"></i>
+            <span>+91 8555 287239</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-envelope mt-1 mr-3 text-orange-500"></i>
+            <span>srisathyasaiskilldevelopment@gmail.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 mb-4 md:mb-0">© 2025 Sri Sathya Sai Skill Development Center. All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script>
+        // Course Data
+        const courseData = [
+            {
+                value: "Maggam (Women Only)",
+                label: "Maggam (Women Only)",
+                description: "Master the art of traditional Maggam embroidery, designed exclusively for women to foster creativity and entrepreneurship.",
+                icon: "fa-seedling",
+                redirect: "maggamform.html"
+            },
+            {
+                value: "Python with AI for Girls",
+                label: "Python with AI for Girls",
+                description: "Learn Python programming and AI concepts in a supportive environment tailored for girls to build tech skills.",
+                icon: "fa-code",
+                redirect: "pythongirls.html"
+            }
+        ];
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (window.gsap) {
+                gsap.fromTo(mobileMenu.querySelectorAll('li'), 
+                    { x: 50, opacity: 0 }, 
+                    { x: 0, opacity: 1, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
+                );
+            }
+        });
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // GSAP Fallback
+            if (!window.gsap || !window.ScrollTrigger) {
+                console.error('GSAP or ScrollTrigger failed to load');
+                document.querySelectorAll('.course-card, .orange-box *').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+                return;
+            }
+
+            // Register GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Header and Orange Box Animations
+            gsap.from('.hero-section h2, .hero-section p', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                stagger: 0.3,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.orange-box img, .orange-box h2, .orange-box p, .orange-box .flex', {
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.5,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.orange-box',
+                    start: 'top 80%'
+                }
+            });
+
+            // Course Card Static Display
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+            });
+
+            // Register Button Redirect
+            document.querySelectorAll('.register-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const course = btn.dataset.course;
+                    const redirect = btn.dataset.redirect;
+                    console.log('Registration Intent:', { course, action: 'redirected' });
+                    window.location.href = redirect;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

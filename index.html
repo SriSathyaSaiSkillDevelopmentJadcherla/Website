@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Sathya Sai Skill Development Centre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #F97316;
+            --primary-dark: #EA580C;
+            --secondary: #1E293B;
+            --light: #FFF7ED;
+            --accent: #F59E0B;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header specific styles --- */
+        .header-transparent {
+            background-color: transparent;
+            box-shadow: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque white */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Adjust hover color for transparent header */
+        .header-transparent .nav-link:hover,
+        .header-transparent .nav-link.active {
+            color: var(--primary); /* Primary orange */
+        }
+        /* Ensure default text color for transparent header links */
+        .header-transparent .nav-link {
+            color: rgba(255, 255, 255, 0.8); /* Lighter text on dark video */
+        }
+        /* Color for header links when scrolled (header becomes opaque) */
+        .header-scrolled .nav-link {
+            color: var(--secondary); /* Dark text on light header */
+        }
+        .header-scrolled .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Logo and SSSDC text color for transparent header */
+     #main-logo-h1 {
+    color: var(--primary) !important; /* Keeps "Sri Sathya Sai" in orange */
+}
+
+#main-logo-p {
+    color: white !important; /* Makes "Skill Development Center, Jadcherla" white */
+}
+
+        /* Logo icon background for transparent header */
+        .header-transparent .logo-icon-bg {
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            transition: background-color 0.3s ease;
+        }
+        .header-scrolled .logo-icon-bg {
+            background-color: var(--light); /* Light orange when scrolled */
+        }
+
+        /* Mobile menu text color */
+        #mobileMenu li a {
+            color: var(--secondary); /* Default dark text */
+        }
+        #mobileMenu li a:hover {
+             background-color: var(--light);
+        }
+        #mobileMenu li .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* --- Video Background & Overlay --- */
+        .video-background {
+            position: fixed; /* Fixed to cover the entire viewport regardless of scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures video fills the screen, may crop */
+            z-index: -2; /* Below overlay and content */
+        }
+
+        .overlay {
+            position: fixed; /* Fixed to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay for text contrast */
+            z-index: -1; /* Above video, below content */
+        }
+
+        /* --- Hero Section Content Alignment & Images --- */
+        .hero-content {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: flex-end; /* Push content to the bottom */
+            align-items: center; /* Center horizontally */
+            padding-top: 8rem; /* Ensure space for header */
+            padding-bottom: 4rem; /* Padding from the bottom of the screen */
+            text-align: center;
+            position: relative;
+        }
+
+        /* Main Heading for the Center - Now with Continuous Animation */
+        .center-main-heading {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem; /* Larger, prominent heading */
+            font-weight: 700; /* Bold */
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-top: 2rem; /* Push down from header */
+            margin-bottom: auto; /* Pushes other content down */
+            /* Continuous animation properties */
+            animation: floatText 3s ease-in-out infinite alternate; /* Loops, alternates direction */
+            transform: translateY(0); /* Ensure initial state is correct for animation */
+        }
+
+        /* Keyframes for the continuous floating animation */
+        @keyframes floatText {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.01); /* Move up slightly and scale */
+            }
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Container for "Love All, Serve All" and the two images */
+        .hero-bottom-banner-container {
+            display: flex;
+            align-items: center; /* Vertically align items */
+            justify-content: center; /* Center items horizontally */
+            margin-top: 1rem; /* Space below the small quote */
+            gap: 2rem; /* Space between text and images */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .hero-banner-image {
+            width: 220px; /* ENLARGED size for the images (from 180px) */
+            height: 220px; /* ENLARGED size for the images (from 180px) */
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0; /* Prevent images from shrinking */
+        }
+
+        /* Further adjusted margins for wider separation */
+        .hero-banner-image:first-child {
+            margin-left: -8rem; /* Increased left shift */
+        }
+
+        .hero-banner-image:last-child {
+            margin-right: -8rem; /* Increased right shift */
+        }
+
+        .hero-banner-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- CSS for the small education quote (transparent box) --- */
+        .small-education-quote {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            margin-top: auto; /* Pushes itself just above the bottom banner */
+            margin-bottom: 1rem;
+            max-width: 80%;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            opacity: 0; /* Hidden initially */
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 1.5s; /* Appears after main heading */
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- CSS for "Love All, Serve All" text (devotional font, one line, new size) --- */
+      .love-serve-text {
+    font-family: 'Tangerine', cursive;
+    font-size: 4.5rem; /* Increased size */
+    font-weight: normal;
+    color: white;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transform: scale(0.95);
+    animation: fadeInZoom 1.5s ease-out forwards;
+    animation-delay: 2.2s;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+        @keyframes fadeInZoom {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* --- Other Section Styles (Unchanged but included for completeness) --- */
+        .sai-image {
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+            transition: transform 0.5s ease;
+        }
+
+        .sai-image:hover {
+            transform: scale(1.03);
+        }
+
+        .value-card {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) { /* Adjust for medium screens too */
+            .hero-banner-image {
+                width: 180px; /* Adjusted for medium screens (from 140px) */
+                height: 180px;
+            }
+            .love-serve-text {
+                font-size: 3.5rem; /* Retain larger size for medium screens */
+            }
+            .hero-bottom-banner-container {
+                gap: 1.5rem;
+            }
+            .small-education-quote {
+                font-size: 1.3rem;
+                padding: 0.6rem 1.2rem;
+            }
+            .hero-banner-image:first-child {
+                margin-left: -5rem; /* Adjust shift for medium screens */
+            }
+
+            .hero-banner-image:last-child {
+                margin-right: -5rem; /* Adjust shift for medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                padding-top: 8rem; /* Keep higher for visibility below header */
+                padding-bottom: 4rem; /* More space at bottom */
+            }
+            .hero-bottom-banner-container {
+                flex-direction: column; /* Stack vertically on small screens */
+                gap: 1rem; /* Reduce gap when stacked */
+                margin-top: 2rem; /* Adjusted space when stacked */
+            }
+            .hero-banner-image {
+                width: 150px; /* Adjusted for small screens (from 120px) */
+                height: 150px;
+            }
+            .love-serve-text {
+                font-size: 2.8rem; /* Adjusted text size for mobile */
+                white-space: normal; /* Allow text to wrap on very small screens if necessary */
+            }
+            .small-education-quote {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+                margin-bottom: 0.75rem;
+            }
+            .center-main-heading {
+                font-size: 2.5rem;
+                margin-top: 1rem;
+            }
+            .hero-banner-image:first-child,
+            .hero-banner-image:last-child {
+                margin-left: 0; /* Reset margins when stacked */
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .love-serve-text {
+                font-size: 2rem; /* Even smaller for very small phones */
+            }
+            .small-education-quote {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            .hero-banner-image {
+                width: 100px; /* Adjusted for very small phones (from 90px) */
+                height: 100px;
+            }
+            .center-main-heading {
+                font-size: 1.8rem;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header" class="header-transparent fixed w-full z-50 top-0">
+        <div class="container mx-auto px-4 py-6 md:py-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shadow-md">
+        <img src="Images\Logo\logo.jpg" alt="Logo" class="w-full h-full object-cover">
+    </div>
+
+    <div class="ml-4"> <!-- Added margin-left here -->
+        <h1 id="main-logo-h1" class="text-xl md:text-2xl font-bold">Sri Sathya Sai</h1>
+        <p id="main-logo-p" class="text-sm font-medium">Skill Development Centre, Jadcherla</p>
+    </div>
+</a>
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-white active">Home</a>
+                    <a href="about.html" class="nav-link text-white">About Us</a>
+                    <a href="programs.html" class="nav-link text-white">Programs</a>
+                    <a href="gallery.html" class="nav-link text-white">Gallery</a>
+                     <a href="join.html" class="nav-link text-gray-600 hover:text-orange-500">Join Us</a>
+
+                    <a href="contact.html" class="nav-link text-white">Contact</a>
+                    <a href="register.html" class="px-5 py-2.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-medium">Register</a>
+                </nav>
+                <button id="mobileMenuBtn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobileMenu" class="md:hidden hidden py-4 bg-white rounded-lg shadow-lg mt-4">
+                <ul class="space-y-3">
+                    <li><a href="index.html" class="block px-4 py-2 text-orange-500 font-medium hover:bg-orange-50 rounded">Home</a></li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">About Us</a></li>
+                    <li><a href="programs.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Programs</a></li>
+                    <li><a href="gallery.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Gallery</a></li>
+                    <li><a href="join.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Join Us</a></li>
+
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-600 hover:bg-orange-50 rounded">Contact</a></li>
+                    <li><a href="register.html" class="block mt-4 px-4 py-2 bg-orange-500 text-white text-center rounded-lg hover:bg-orange-600 transition">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <video autoplay muted loop class="video-background">
+            <source src="Home Page Intro\Home Section Intro.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <div class="overlay"></div>
+
+        <section class="relative text-white">
+            <div class="hero-content">
+                <h1 class="center-main-heading">Sri Sathya Sai Skill Development Center</h1>
+
+                <p class="small-education-quote">"The end of education is character."</p>
+
+                <div class="hero-bottom-banner-container">
+                    <div class="hero-banner-image">
+                        <img src="Images\Logo\logo.jpg" alt="Institute Logo">
+                    </div>
+                    <div class="love-serve-text">Love All Serve All</div>
+                    <div class="hero-banner-image">
+                        <img src="Images\sai1.jpg" alt="Sathya Sai Baba">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="relative py-16 bg-white bg-opacity-90 backdrop-blur-sm">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Sri Sathya Sai Skill Development Center</h2>
+                    <div class="w-20 h-1 bg-orange-500 mx-auto mb-6"></div>
+                    <p class="text-gray-600 text-lg">Located in the sacred town of Jadcherla, our center is dedicated to providing vocational training infused with human values as taught by Bhagawan Sri Sathya Sai Baba. We empower youth with skills for livelihood and life.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="value-card p-8 text-center">
+                        <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-graduation-cap text-orange-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Skill Training</h3>
+                        <p class="text-gray-600">Industry-relevant vocational courses with practical hands-on training.</p>
+                    </div>
+
+                    <div class="value-card p-8 text-center">
+                        <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-heart text-orange-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Value Education</h3>
+                        <p class="text-gray-600">Instilling human values and character development alongside skills.</p>
+                    </div>
+
+                    <div class="value-card p-8 text-center">
+                        <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-briefcase text-orange-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Placement Support</h3>
+                        <p class="text-gray-600">Connecting trained students with employment opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-orange-50">
+            <div class="container mx-auto px-4">
+                <div class="bg-white rounded-xl shadow-sm p-8 md:p-12 max-w-5xl mx-auto">
+                    <div class="md:flex items-center">
+                        <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">Why Choose Our Center?</h3>
+                            <ul class="space-y-4 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                                    <span>Affiliated with Sri Sathya Sai Seva Organizations</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                                    <span>Subsidized training for economically weaker students</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                                    <span>Experienced faculty with industry expertise</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                                    <span>Modern infrastructure and training facilities</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="md:w-1/2">
+                            <div class="bg-orange-100 p-6 rounded-lg">
+                                <h4 class="font-semibold text-gray-800 mb-4">Upcoming Events</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white rounded-lg p-2 text-center mr-4 min-w-12">
+                                            <div class="font-bold">10</div>
+                                            <div class="text-xs">SEP</div>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-medium text-gray-800">Admissions Open For Python with Ai for Women's Batch</h5>
+                                            <p class="text-sm text-gray-600">25 Batch</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-orange-500 text-white rounded-lg p-2 text-center mr-4 min-w-12">
+                                            <div class="font-bold">6</div>
+                                            <div class="text-xs">AUG</div>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-medium text-gray-800">Sai Bhajan Program</h5>
+                                            <p class="text-sm text-gray-600">Evening 5:30 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="programs.html" class="inline-block mt-4 text-orange-500 font-medium hover:underline">View All Events →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div>
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          SSSDC–JCL
+        </h3>
+        <p class="text-gray-400 mb-6">Empowering communities through skill development inspired by Sri Sathya Sai Baba's teachings of love, service, and human values.</p>
+        <div class="flex space-x-4">
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-icon text-gray-400 hover:bg-orange-500 hover:text-white p-2 rounded-full transition">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+        <ul class="space-y-3">
+          <li><a href="index.html" class="text-gray-400 hover:text-orange-500 transition">Home</a></li>
+          <li><a href="about.html" class="text-gray-400 hover:text-orange-500 transition">About Us</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Programs</a></li>
+          <li><a href="gallery.html" class="text-gray-400 hover:text-orange-500 transition">Gallery</a></li>
+          <li><a href="join.html" class="text-gray-400 hover:text-orange-500 transition">Join Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Our Programs</h3>
+        <ul class="space-y-3">
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Tailoring & Maggam Work</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Beautician Training</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Electrical & Wiring</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Computer Basics</a></li>
+          <li><a href="programs.html" class="text-gray-400 hover:text-orange-500 transition">Soft Skills</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+        <ul class="space-y-3 text-gray-400">
+          <li class="flex items-start">
+            <i class="fas fa-map-marker-alt mt-1 mr-3 text-orange-500"></i>
+            <span>Jadcherla, Mahabubnagar, Telangana - 509301, India</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-phone-alt mt-1 mr-3 text-orange-500"></i>
+            <span>+91 8555 287239</span>
+          </li>
+          <li class="flex items-start">
+            <i class="fas fa-envelope mt-1 mr-3 text-orange-500"></i>
+            <span>srisathyasaiskilldevelopment@gmail.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 mb-4 md:mb-0">© 2025 Sri Sathya Sai Skill Development Center. All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-orange-500 transition">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Header Scroll Effect (making it solid on scroll)
+        const mainHeader = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { // Adjust scroll threshold as needed
+                mainHeader.classList.add('header-scrolled');
+                mainHeader.classList.remove('header-transparent');
+            } else {
+                mainHeader.classList.remove('header-scrolled');
+                mainHeader.classList.add('header-transparent');
+            }
+        });
+
+        // Fallback if video doesn't load
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.video-background');
+            const overlay = document.querySelector('.overlay');
+            if (video && overlay) {
+                video.addEventListener('error', function() {
+                    // Replace with background image if video fails to load
+                    overlay.style.background = 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80)';
+                    overlay.style.backgroundSize = 'cover';
+                    overlay.style.backgroundPosition = 'center';
+                    video.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
